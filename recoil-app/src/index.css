@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.todos-total-info{
+  width: fit-content;
+  border: 1px solid #000;
+}
+
+.todos-total-info-item{
+  display: inline-block;
+  border: 1px solid #000;
+}
