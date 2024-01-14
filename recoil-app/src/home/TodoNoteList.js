@@ -1,32 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import TodoNote from './TodoNote';
-
-const elems = [
-    {
-        text: 'nothing',
-    },
-    {
-        text: 'nothing1',
-    },
-    {
-        text: 'nothing2',
-    },
-];
+import TodoNote from "./TodoNote";
+import { useRecoilValue } from "recoil";
+import { NotesDataListState } from "../recoil/atoms/atoms";
+import { DateFilterSelector } from "../recoil/selectors/selectors";
 
 const TodoNoteList = () => {
-    const [todoNotes, setTodoNotes] = useState([]);
+    const noteFilter = useRecoilValue(DateFilterSelector);
+    const elems = useRecoilValue(NotesDataListState);
 
-    useEffect(() => {
-        setTodoNotes(elems);
-    }, []);
-
-    const filteredNotes = todoNotes.map((item, index) => {
-        return <TodoNote key={index} info={item.text} />
+    const filteredNotes = noteFilter.filterAction(elems);
+    const notes = filteredNotes.map((item) => {
+        return (
+            <TodoNote
+                id={item.id}
+                key={item.id}
+                info={`${item.text} | ${item.date}`}
+            />
+        );
     });
 
-    return (
-        <div>{filteredNotes}</div>
-    )
-}
+    return <div>{notes}</div>;
+};
 
-export default TodoNoteList
+export default TodoNoteList;

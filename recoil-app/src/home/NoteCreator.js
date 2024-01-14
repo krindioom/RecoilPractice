@@ -1,15 +1,34 @@
 import { Button, Modal, Input } from "antd";
 import React, { useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { NotesDataListState } from "../recoil/atoms/atoms";
 
-const NoteCreation = () => {
+const NoteCreator = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [pageText, setPageText] = useState("");
   const [inputText, setInputText] = useState("");
 
   const handleOpenModal = () => setModalOpen(true);
 
-  const handleCloseModal = () => {
-    setPageText(inputText);
+  const setDataList = useSetRecoilState(NotesDataListState);
+  const dataList = useRecoilValue(NotesDataListState);
+
+  const handleOkModal = () => {
+    setDataList((old) => {
+      const noteId = old.length;
+
+      return inputText ? [
+        ...old,
+        {
+          id: noteId,
+          text: inputText,
+          date: new Date().toISOString(),
+        },
+      ] : [...old];
+
+    });
+
+    setInputText("");
     setModalOpen(false);
   };
 
@@ -23,8 +42,10 @@ const NoteCreation = () => {
         title="Добавить"
         style={{ top: 20 }}
         open={modalOpen}
-        onOk={handleCloseModal}
-        onCancel={handleCloseModal}
+        onOk={handleOkModal}
+        onCancel={() => {
+          setModalOpen(false);
+        }}
       >
         <Input
           placeholder="Введите задачу"
@@ -37,4 +58,4 @@ const NoteCreation = () => {
   );
 };
 
-export default NoteCreation;
+export default NoteCreator;

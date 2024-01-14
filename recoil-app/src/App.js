@@ -1,8 +1,8 @@
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
-import { Routes, Route, BrowserRouter } from 'react-router-dom'
+//import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import { RecoilRoot } from 'recoil';
-import Home from './Home';
+import Home from './home/Home';
 
 
 function App() {
